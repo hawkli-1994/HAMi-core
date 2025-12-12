@@ -1,0 +1,8 @@
+FROM nvidia/cuda:12.2.0-devel-ubuntu20.04 AS base
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV https_proxy=http://172.18.2.160:7890
+ENV http_proxy=http://172.18.2.160:7890
+RUN apt-get update && \
+    apt-get install -y cmake && \
+    rm -rf /var/lib/apt/lists/*

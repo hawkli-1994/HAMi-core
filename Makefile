@@ -6,11 +6,15 @@ build:
 	sh ./build.sh
 .PHONY: build
 
-build-in-docker:
+build-base:
+	docker build -t hami-core-dev:base -f dockerfiles/Dockerfile.base .
+.PHONY: build-base
+
+build-in-docker: build-base
 	docker run -i --rm \
 		-v $(current_dir):/libvgpu \
 		-w /libvgpu \
 		-e DEBIAN_FRONTEND=noninteractive \
-		nvidia/cuda:12.2.0-devel-ubuntu20.04 \
-		sh -c "apt-get -y update; apt-get -y install cmake; bash ./build.sh"
+		hami-core-dev:base \
+		sh -c "bash ./build.sh"
 .PHONY: build-in-docker
